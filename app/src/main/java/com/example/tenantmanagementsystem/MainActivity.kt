@@ -20,7 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         val loggedInEmail = intent.getStringExtra("EMAIL")
         if (!loggedInEmail.isNullOrEmpty()) {
-            Toast.makeText(this, "Logged in as $loggedInEmail", Toast.LENGTH_SHORT).show()
+            val welcomeMessage = "Logged in as $loggedInEmail"
+            binding.welcomeTextView.text = welcomeMessage
+            Toast.makeText(this, welcomeMessage, Toast.LENGTH_LONG).show()
         }
 
         binding.saveButton.setOnClickListener {
