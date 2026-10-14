@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.tenantmanagementsystem.databinding.FragmentAddTenantBinding
 
 class AddTenantFragment : Fragment() {
@@ -24,7 +25,32 @@ class AddTenantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // SAVE button functionality will be wired in Practical 3
+        binding.saveButton.setOnClickListener {
+            val name = binding.tenantNameEditText.text.toString().trim()
+            val phone = binding.phoneEditText.text.toString().trim()
+            val rent = binding.rentEditText.text.toString().trim()
+
+            if (name.isEmpty()) {
+                binding.tenantNameEditText.error = "Required"
+                return@setOnClickListener
+            }
+
+            if (phone.isEmpty()) {
+                binding.phoneEditText.error = "Required"
+                return@setOnClickListener
+            }
+
+            if (rent.isEmpty()) {
+                binding.rentEditText.error = "Required"
+                return@setOnClickListener
+            }
+
+            val tenant = Tenant(name, phone, rent)
+            TenantRepository.addTenant(tenant)
+
+            val action = AddTenantFragmentDirections.actionAddTenantFragmentToViewTenantsFragment(tenant)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onDestroyView() {
